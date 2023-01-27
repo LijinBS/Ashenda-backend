@@ -14,10 +14,14 @@ const getProfile = async (req, res) => {
     const userInfo = await UserModel.findOne({ _id: userId }, [
       'name',
       'email',
-      'phone',
+      'phone.code',
+      'phone.number',
+      'userType',
       'isEmailVerified',
       'isPhoneVerified',
-      'location',
+      'city',
+      'state',
+      'country',
       'profileImg',
     ]);
     sendResponse(OK, '', '', userInfo);
@@ -30,8 +34,9 @@ const updateProfile = async (req, res) => {
   const sendResponse = responseGenerator(res);
   try {
     const { userId } = req.params;
-    const reqBody = req.body;
-    const userInfo = await UserModel.updateOne({ _id: userId }, reqBody);
+    const { name, phone, profileImg, city, state, country } = req.body;
+    const updatePayload = { name, phone, profileImg, city, state, country };
+    const userInfo = await UserModel.updateOne({ _id: userId }, updatePayload);
     sendResponse(OK, RESPONSE_MESSAGE.PROFILE_UPDATE_SUCCESS, '', userInfo);
   } catch (error) {
     sendResponse(INTERNAL_SERVER_ERROR, RESPONSE_MESSAGE.PROFILE_UPDATE_FAILED);
@@ -45,5 +50,4 @@ const changePassword = async (req, res) => {
     res.send('error');
   }
 };
-
 module.exports = { getProfile, updateProfile, changePassword };

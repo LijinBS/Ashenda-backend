@@ -1,8 +1,20 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
-const UserSchema = new Schema(
+const phNoSchema = new Schema({
+  code: {
+    type: String,
+    default: '',
+  },
+  number: {
+    type: String,
+    default: '',
+  },
+});
+
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -12,6 +24,7 @@ const UserSchema = new Schema(
       type: String,
       require: true,
       unique: true,
+      lowercase: true,
     },
     password: {
       type: String,
@@ -19,15 +32,18 @@ const UserSchema = new Schema(
     },
     userType: {
       type: String,
-      default: 'USER',
+      default: 'EU',
     },
     profileImg: {
       type: String,
       default: '',
     },
     phone: {
-      type: String,
-      default: '',
+      type: phNoSchema,
+      default: {
+        code: '',
+        number: '',
+      },
     },
     isEmailVerified: {
       type: Boolean,
@@ -37,7 +53,15 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    location: {
+    city: {
+      type: String,
+      default: '',
+    },
+    state: {
+      type: String,
+      default: '',
+    },
+    country: {
       type: String,
       default: '',
     },
@@ -45,10 +69,4 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-// eslint-disable-next-line func-names
-// UserSchema.pre('save', function (next) {
-//   this.password = '123';
-//   next();
-// });
-
-module.exports = model('User', UserSchema);
+module.exports = model('User', userSchema);

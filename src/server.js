@@ -13,6 +13,8 @@ const connectDB = require('./config/db-connection');
 
 const rootRoute = require('./routes/index');
 
+const logger = require('./helpers/logger-helper');
+
 connectDB();
 
 const PORT = process.env.PORT || 3000;
@@ -31,14 +33,18 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  logger.info(`${req.method} :: ${req.originalUrl}`);
+  next();
+});
+
 app.use('/api', rootRoute);
 
 app.use(rootErrorHandler);
-
 // Standalone server
 
 const server = httpServer.createServer(app);
 
 server.listen(PORT, () => {
-  console.log('application running =>', PORT);
+  logger.info(`application running => ${PORT}`);
 });
