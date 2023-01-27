@@ -77,6 +77,11 @@ const RESPONSE_MESSAGE = {
   PROFILE_UPDATE_SUCCESS: 'Profile Updated Successfully',
   PROFILE_GET_FAILED: 'Failed to get profile info',
   PROFILE_UPDATE_FAILED: 'Profile Update Failed',
+  LOGOUT_SUCCESS: 'Logout Successfully',
+  LOGOUT_FAILED: 'Logout Failed',
+  UNAUTHORIZED: 'Unauthorized Access',
+  REFRESH_SUCCESS: 'Token Refresh Successfully',
+  REFRESH_FAILED: 'Token Refresh Failed',
 };
 
 module.exports = {
